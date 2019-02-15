@@ -100,7 +100,7 @@ class _MaterialControlsState extends State<MaterialControls> {
           children: <Widget>[
             _buildPlayPause(controller),
             chewieController.isLive
-                ? Expanded(child: const Text('LIVE'))
+                ? Expanded(child: Text('${formatDuration(controller.value.position)} / LIVE'))
                 : _buildPosition(iconColor),
             chewieController.isLive ? const SizedBox() : _buildProgressBar(),
             chewieController.allowMuting
