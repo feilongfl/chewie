@@ -37,6 +37,7 @@ class _MaterialControlsState extends State<MaterialControls> {
       onTap: () {
         _cancelAndRestartTimer();
       },
+      onDoubleTap: () => _playPause(),
       child: AbsorbPointer(
         absorbing: _hideStuff,
         child: Column(
