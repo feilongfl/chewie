@@ -8,7 +8,10 @@ import 'package:flutter/material.dart';
 import 'package:video_player/video_player.dart';
 
 class MaterialControls extends StatefulWidget {
-  MaterialControls({Key key}) : super(key: key);
+  final int dragVideoSpeed;
+
+  MaterialControls({this.dragVideoSpeed = 1000, Key key})
+      : super(key: key);
 
   @override
   State<StatefulWidget> createState() {
@@ -38,6 +41,11 @@ class _MaterialControlsState extends State<MaterialControls> {
         _cancelAndRestartTimer();
       },
       onDoubleTap: () => _playPause(),
+      onHorizontalDragUpdate: (DragUpdateDetails drag){
+        if(!chewieController.isLive)
+          controller.seekTo(controller.value.position
+              + Duration(milliseconds: widget.dragVideoSpeed * drag.delta.dx.toInt()));
+      },
       child: AbsorbPointer(
         absorbing: _hideStuff,
         child: Column(

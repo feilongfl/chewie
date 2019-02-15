@@ -15,10 +15,12 @@ class CupertinoControls extends StatefulWidget {
   CupertinoControls({
     @required this.backgroundColor,
     @required this.iconColor,
+    this.dragVideoSpeed = 1000,
   });
 
   final Color backgroundColor;
   final Color iconColor;
+  final int dragVideoSpeed;
 
   @override
   State<StatefulWidget> createState() {
@@ -51,6 +53,12 @@ class _CupertinoControlsState extends State<CupertinoControls> {
     return GestureDetector(
       onTap: () {
         _cancelAndRestartTimer();
+      },
+      onDoubleTap: () => _playPause(),
+      onHorizontalDragUpdate: (DragUpdateDetails drag){
+        if(!chewieController.isLive)
+            controller.seekTo(controller.value.position
+                + Duration(milliseconds: widget.dragVideoSpeed * drag.delta.dx.toInt()));
       },
       child: AbsorbPointer(
         absorbing: _hideStuff,
@@ -147,7 +155,7 @@ class _CupertinoControlsState extends State<CupertinoControls> {
     return Padding(
       padding: EdgeInsets.only(right: 12.0),
       child: Text(
-        'LIVE',
+        '${formatDuration(controller.value.position)} / LIVE',
         style: TextStyle(color: iconColor, fontSize: 12.0),
       ),
     );
